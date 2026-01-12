@@ -4,14 +4,14 @@ import pandas as pd
 import plotly.express as px
 import time
 
-# Forziamo il tema Dark tramite configurazione
+# dark theme
 st.set_page_config(
     page_title="Centuria SAF Dashboard",
     page_icon="🛡️",
     layout="wide"
 )
 
-# CSS per forzare lo sfondo scuro e testo chiaro su tutta la pagina
+# CSS 
 st.markdown("""
     <style>
     /* Sfondo principale */
@@ -65,12 +65,12 @@ if data:
     with metrics_row[0]:
         st.metric("Total Packets", f"{data['total_packets']:,}")
     with metrics_row[1]:
-        # Rosso se ci sono blocchi, verde se zero
+        # red alert
         st.metric("Blocked Attacks", f"{data['blocked_packets']:,}")
     with metrics_row[2]:
         st.metric("Active Blacklist", data['active_blacklist_count'])
 
-    # Aggiornamento storico
+    # Refresh
     new_entry = pd.DataFrame([{
         'Timestamp': pd.Timestamp.now(),
         'Total': data['total_packets'],
@@ -84,7 +84,7 @@ if data:
                       template="plotly_dark",
                       color_discrete_map={"Total": "#00ff00", "Blocked": "#ff0000"})
         
-        # Miglioriamo il layout del grafico per il tema scuro
+        # Layout
         fig.update_layout(
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
@@ -94,6 +94,6 @@ if data:
 else:
     st.warning("🔌 Waiting for SAF Core... (Check port 3000)")
 
-# Refresh rapido per l'effetto "Real-time"
+#  "Real-time"
 time.sleep(1)
 st.rerun()
